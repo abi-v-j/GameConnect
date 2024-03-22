@@ -1,0 +1,90 @@
+.login {
+    height: 100vh;
+    background-color: rgb(193, 190, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .card {
+        width: 50%;
+        display: flex;
+        background-color: white;
+        border-radius: 10px;
+        min-height: 600px;
+        overflow: hidden;
+
+        .left {
+            flex: 1;
+            background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)), 
+            url("https://img.freepik.com/free-vector/skull-gaming-with-joy-stick-emblem-modern-style_32991-492.jpg?w=740&t=st=1708062409~exp=1708063009~hmac=8fe0a7ef7b9e63f88afceef7ca9e17f11e3432e500a39d7bd969561da001bf84") center;
+            background-size: cover;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color: white;
+
+            h1 {
+                font-size: 70px;
+                line-height: 100px;
+            }
+
+            p{
+                font-size: large;
+            }
+
+            span {
+                font-size: large;
+            }
+
+            button {
+                width: 50%;
+                padding: 10px;
+                border: none;
+                background-color: white;
+                color: rebeccapurple;
+                cursor: pointer;
+
+            }
+
+        }
+
+        .right {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            justify-content: center;
+
+            h1 {
+                color: #555;
+
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+
+                input {
+                    border: none;
+                    border-bottom: 1px solid lightgrey;
+                    padding: 20px 10px;
+                }
+
+                button {
+                    width: 50%;
+                    padding: 10px;
+                    border: none;
+                    background-color: #938eef;
+                    cursor: pointer;
+                    color: white;
+                    text-decoration: solid  ;
+                    
+                }
+
+            }
+        }
+    }
+}
