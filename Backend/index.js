@@ -165,10 +165,12 @@ app.post('/UploadGame',
 
 //UploadGame Select
 
-// app.get('/UploadGame/:Id', async (req, res) => {
-//   const uploadGame = await UploadGame.find()
-//   res.send(uploadGame)
-// })
+app.get('/UploadGameById/:Id', async (req, res) => {
+  const Id = req.params.Id
+  const uploadGame = await UploadGame.findById(Id)
+
+  res.send({uploadGame})
+})
 
 
 app.get('/UploadGame/:Id', async (req, res) => {
@@ -943,6 +945,97 @@ app.get("/likecount/:pid", async (req, res) => {
   try {
     const postId = req.params.pid;
     const likeCount = await Like.countDocuments({ postId });
+    res.send({ likeCount });
+  } catch (err) { }
+});
+
+
+
+
+//likeSchema
+
+const GamelikeSchemaStructure = new mongoose.Schema({
+  likeDateTime: {
+    type: String,
+    default: () => moment().tz("Asia/Kolkata").format(),
+  },
+  gameId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "uploadgames",
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
+  },
+});
+
+GamelikeSchemaStructure.pre("save", function (next) {
+  this.doj = moment(this.doj).tz("Asia/Kolkata").format();
+  next();
+});
+const GameLike = mongoose.model("gamelikeschema", GamelikeSchemaStructure);
+
+//addLike
+
+app.post("/GameLike", async (req, res) => {
+  try {
+    const { gameId, userId } = req.body;
+    const like = new GameLike({
+      gameId,
+      userId,
+    });
+    await like.save();
+    res.json({ msg: "Like Added" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+
+
+//Like Delete
+
+app.delete("/GameLike/:id/:gameId", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const gameId = req.params.gameId;
+    const deletedLike = await GameLike.deleteOne({
+      userId,
+      gameId
+    });
+    if (!deletedLike) {
+      return res.status(404).json({ message: "No Like" });
+    } else {
+      res.json({ message: "Like deleted successfully", deletedLike });
+    }
+  } catch (err) {
+    console.error("Error Deleting Like", err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+//Like Status
+
+app.get("/GameLikeStatus/:uid/:gid", async (req, res) => {
+  try {
+    const userId = req.params.uid;
+    const gameId = req.params.gid;
+    const likeStatus = (await GameLike.findOne({ userId, gameId })) ? true : false;
+    res.json(likeStatus);
+  } catch (err) {
+    console.error("Error", err);
+  }
+});
+
+//Like Count
+
+app.get("/GameLikecount/:gid", async (req, res) => {
+  try {
+    const gameId = req.params.gid;
+    const likeCount = await GameLike.countDocuments({ gameId });
     res.send({ likeCount });
   } catch (err) { }
 });

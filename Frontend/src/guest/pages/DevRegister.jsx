@@ -60,7 +60,7 @@ const DevRegister = () => {
           <p>“The Game gives you a Purpose. The Real Game is, to Find a Purpose”</p>
 
           <span>Do you have an account?</span>
-          <Link to="/Guest/login">
+          <Link to="/">
             <button>Login</button>
           </Link>
 

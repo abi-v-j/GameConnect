@@ -29,12 +29,12 @@ const MyProfile = () => {
 
 
 
- 
+
 
   useEffect(() => {
     fetchData();
     fetchGameData()
-    }, []);
+  }, []);
   return (
     <div>
       <Box padding={"60px"}>
@@ -75,7 +75,7 @@ const MyProfile = () => {
 
               <Button sx={{ marginLeft: "30px" }} variant="contained">
                 <Link to={'/user/AddGame'}
-                 style={{ textDecoration: "none", color: "inherit" }}>
+                  style={{ textDecoration: "none", color: "inherit" }}>
                   Add Game
                 </Link>
               </Button>
@@ -107,22 +107,25 @@ const MyProfile = () => {
       </Box>
       <Divider sx={{ paddingTop: "50px" }} />
       <Box>
-            <Typography variant='h4' textAlign={'center'}>Games</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, m: 2 }}>
-                {
-                    MyGame && MyGame.map((item, key) => (
-                        <Card key={key} sx={{ width: 280, height: 400, p: 2, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
-                            <CardMedia image={item.game.uploadfile} sx={{ width: 'inherit', height: 250, borderRadius: 5 }} />
-                            <Typography>{item.game.name}</Typography>
-                            <Typography>{item.game.desc}</Typography>
-                            <Button>View More</Button>
-                           
-                        </Card>
-                    ))
-                }
+        <Typography variant='h4' textAlign={'center'}>Games</Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, m: 2 }}>
+          {
+            MyGame && MyGame.map((item, key) => (
+              <Card key={key} sx={{ width: 280, height: 400, p: 2, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+                <CardMedia image={item.game.uploadfile} sx={{ width: 'inherit', height: 250, borderRadius: 5 }} />
+                <Typography>{item.game.name}</Typography>
+                <Typography>{item.game.desc}</Typography>
+                <Link to={`/User/ShowReview/${item.gameId}`}>
 
-            </Box>
+                  <Button>View More</Button>
+                </Link>
+
+              </Card>
+            ))
+          }
+
         </Box>
+      </Box>
     </div>
   );
 };

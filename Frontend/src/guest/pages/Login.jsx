@@ -46,11 +46,11 @@ const Login = () => {
           <p>Eat. Sleep. Game. Repeat.</p>
 
           <span>Don't you have an account</span>
-          <Link to="/Guest/register">
+          <Link to="/register">
             <button>Register</button>
           </Link>
           <span>Are you a developer?</span>
-          <Link to="/Guest/DevRegister">
+          <Link to="/DevRegister">
             <button>Register</button>
           </Link>
         </div>

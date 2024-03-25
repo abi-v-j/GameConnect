@@ -42,11 +42,11 @@ const SignUp = () => {
           <p>“I’m the hero of a thousand stories. I’m a superhero, an assassin a soldier. I’ve slain dragons and traveled through portals. I am a spartan, a commander. A king. I’ve saved a thousand worlds and countless more lives. What am I? I’m a gamer.”</p>
 
           <span>Do you have an account?</span>
-          <Link to="/Guest/login">
+          <Link to="/">
             <button>Login</button>
           </Link>
           <span>Are you a developer?</span>
-          <Link to="/Guest/DevRegister">
+          <Link to="/DevRegister">
             <button>Register</button>
           </Link>
 
