@@ -34,7 +34,7 @@ function App() {
               <Route path="/editprofile" element={<Editprofile />} />
               <Route path="/changepassword" element={<Changepassword />} />
               <Route path="/myprofile" element={<MyProfile />} />
-              <Route path="/userprofile/:id" element={<UserProfile />} />
+              <Route path="/userprofile/:gid" element={<UserProfile />} />
               <Route path="/AddGame" element={<AddGame />} />
               <Route path="/ShowReview/:gid" element={<ShowReview />} />
             </Routes>

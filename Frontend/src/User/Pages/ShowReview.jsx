@@ -14,6 +14,7 @@ import Comment from "../Pages/Comment";
 import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import AddReview from "./AddReview";
 
 
 const ShowReview = () => {
@@ -95,9 +96,9 @@ const ShowReview = () => {
         <>{
             game &&
 
-            (<Card sx={{ margin: 5 }}>
+            (<Card sx={{ margin: 5,p:3 }}>
 
-                <CardMedia image={game.uploadfile} sx={{height:400}} />
+                <CardMedia image={game.uploadfile} sx={{height:400,border:1,objectFit:'cover'}} />
 
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
@@ -126,11 +127,9 @@ const ShowReview = () => {
                             {comments}
                         </span>
                     ) : null}
-                    <IconButton aria-label="share">
-                        <Share />
-                    </IconButton>
+                   
                 </CardActions>
-                <Comment gid={gid} countData={countData} />
+                <AddReview gid={gid} countData={countData} />
             </Card>)
         }
         </>

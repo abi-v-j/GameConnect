@@ -3,7 +3,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Post from "../components/Post";
 
 const MyProfile = () => {
   const [data, setData] = useState("");

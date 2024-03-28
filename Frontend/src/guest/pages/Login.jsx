@@ -28,6 +28,10 @@ const Login = () => {
         sessionStorage.setItem('uid', id)
         navigate("../../User")
       }
+      else if (login === 'Developer') {
+        sessionStorage.setItem('did', id)
+        navigate("../../Developer")
+      }
       else {
 
       }

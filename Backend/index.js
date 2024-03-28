@@ -169,7 +169,7 @@ app.get('/UploadGameById/:Id', async (req, res) => {
   const Id = req.params.Id
   const uploadGame = await UploadGame.findById(Id)
 
-  res.send({uploadGame})
+  res.send({ uploadGame })
 })
 
 
@@ -213,7 +213,7 @@ app.get('/UploadGame/:Id', async (req, res) => {
         }
       }
     ]);
-    console.log(uploadGamesWithCheck);  
+    console.log(uploadGamesWithCheck);
     res.json(uploadGamesWithCheck);
   } catch (error) {
     console.error(error);
@@ -1041,6 +1041,11 @@ app.get("/GameLikecount/:gid", async (req, res) => {
 });
 
 
+
+
+
+
+
 const feedbackSchemaStructure = new mongoose.Schema({
   feedbackTitle: {
     type: String,
@@ -1131,6 +1136,140 @@ app.delete("/feedback/:id", async (req, res) => {
     res.status(500).json({ msg: "Server Error" });
   }
 });
+
+
+
+
+
+
+//PostsSchema
+
+const devGameSchemaStructure = new mongoose.Schema({
+  postFile: {
+    type: String,
+    required: true,
+  },
+  postHeadId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "postHeadschema",
+    required: true,
+  },
+  postType: {
+    type: String,
+    required: true,
+  },
+});
+
+const DevGame = mongoose.model("devGameschema", devGameSchemaStructure);
+
+const postdevHeadGameSchemaStructure = new mongoose.Schema({
+  gameCaption: {
+    type: String,
+    required: true,
+  },
+  gameFile: {
+    type: String,
+    required: true,
+  },
+  postDateTime: {
+    type: String,
+    default: () => moment().tz("Asia/Kolkata").format(), // Use the timezone "Asia/Kolkata" for IST
+  },
+  developerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "developer",
+    required: true,
+  },
+});
+
+postdevHeadGameSchemaStructure.pre("save", function (next) {
+  this.doj = moment(this.doj).tz("Asia/Kolkata").format();
+  next();
+});
+
+const DevGameHead = mongoose.model("postdevHeadGameschema", postdevHeadGameSchemaStructure);
+
+//Add Image Post
+
+app.post(
+  "/addGamepost",
+  upload.fields(
+    [
+      { name: "postFile", maxCount: 10 },
+      { name: "gameFile", maxCount: 1 },
+
+
+    ]
+  ), // Adjust maxCount for multiple files
+
+  async (req, res) => {
+    try {
+      var fileValue = JSON.parse(JSON.stringify(req.files));
+      var gameFile = `http://127.0.0.1:${port}/images/${fileValue.gameFile[0].filename}`;
+
+      const { gameCaption, developerId } = req.body;
+      const gameHead = new DevGameHead({
+        gameCaption,
+        developerId,
+        gameFile
+      });
+
+
+      const postHeadCollection = await gameHead.save();
+
+      const files = req.files["postFile"]; // Get the array of files
+
+      // Process each file
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const isImage = file.mimetype.startsWith("image");
+        const isVideo = file.mimetype.startsWith("video");
+
+        // Determine the type of file
+        let postType = "other";
+        if (isImage) {
+          postType = "image";
+        } else if (isVideo) {
+          postType = "video";
+        }
+
+        const fileUrl = `http://127.0.0.1:${port}/images/${file.filename}`;
+
+        // Save each post individually
+        const post = new DevGame({
+          postHeadId: postHeadCollection._id,
+          postFile: fileUrl,
+          postType, // Save post type along with the file
+        });
+        await post.save();
+      }
+
+      res.json({ msg: "Inserted " }); // Return saved posts
+    } catch (err) {
+      console.log(err.msg);
+      res.status(500).json({ msg: "Server Error" });
+    }
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //SchemReviewHead
@@ -1244,24 +1383,21 @@ const reviewBodySchema = new mongoose.Schema({
     ref: 'user',
     type: mongoose.Schema.Types.ObjectId,
   },
-  reviewHeadId: {
-    ref: 'reviewHead',
+  gameId: {
+    ref: 'uploadGame',
     type: mongoose.Schema.Types.ObjectId,
   },
-
-
 
 
 });
 const ReviewBody = mongoose.model('reviewBody', reviewBodySchema);
 
 app.post('/ReviewBody', async (req, res) => {
-  const { content, dateTime, userId, reviewHeadId } = req.body
+  const { content, userId, gameId } = req.body
   const reviewBody = new ReviewBody({
     content,
-    dateTime,
     userId,
-    reviewHeadId
+    gameId
   })
   await reviewBody.save()
   res.send({ message: 'reviewBody inserted successfully' })
@@ -1279,8 +1415,9 @@ app.get('/ReviewBody', async (req, res) => {
 
 app.get('/ReviewBody/:Id', async (req, res) => {
   const Id = req.params.Id
-  const reviewBody = await ReviewBody.findOne({ _id: Id })
-  res.send(reviewBody)
+  const reviewBody = await ReviewBody.find({ gameId: Id }).populate("userId")
+
+  res.send({ reviewBody })
 })
 
 // reviewBody delete
@@ -1351,6 +1488,91 @@ app.put('/ReviewLike/:Id', async (req, res) => {
 
 })
 
+
+//SchemaDeveloper
+
+
+const developerSchema = new mongoose.Schema({
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  proof: {
+    type: String,
+  },
+  password: {
+    type: String,
+  },
+
+
+
+});
+const Developer = mongoose.model('developer', developerSchema);
+
+app.post('/Developer',
+  upload.fields([
+    { name: "file", maxCount: 1 },
+  ]), async (req, res) => {
+    var fileValue = JSON.parse(JSON.stringify(req.files));
+    var proof = `http://127.0.0.1:${port}/images/${fileValue.file[0].filename}`;
+
+    const { name, email, password, } = req.body
+    const developer = new Developer({
+      name,
+      email,
+      proof,
+      password,
+
+    })
+    await developer.save()
+    res.send({ message: 'Developer inserted successfully' })
+
+  })
+
+
+//Developer Select
+
+app.get('/Developer', async (req, res) => {
+  const developer = await Developer.find()
+  res.send(developer)
+})
+
+//developer Select by one 
+
+app.get('/Developer/:Id', async (req, res) => {
+  const Id = req.params.Id
+  const developer = await Developer.findOne({ _id: Id })
+  res.send(developer)
+})
+// developer delete
+app.delete('/Developer/:Id', async (req, res) => {
+  const Id = req.params.Id
+  const developer = await Developer.findByIdAndDelete({ _id: Id })
+  res.send(developer)
+})
+
+// developer Update
+app.put('/Developer/:Id', async (req, res) => {
+  const Id = req.params.Id
+  const {
+    name,
+    email,
+    proof,
+    password,
+  } = req.body
+  const developer = await Developer.findByIdAndUpdate(Id, {
+    name,
+    email,
+    proof,
+    password,
+  }, { new: true })
+  res.send(developer)
+
+})
+//Schemagenre
+
 //login
 
 app.post("/login", async (req, res) => {
@@ -1364,10 +1586,20 @@ app.post("/login", async (req, res) => {
       adminEmail: email,
       adminPassword: password,
     });
+    const developer = await Developer.findOne({
+      email,
+      password,
+    });
     if (user) {
       res.send({
         id: user._id,
         login: "User",
+      });
+    }
+    if (developer) {
+      res.send({
+        id: developer._id,
+        login: "Developer",
       });
     }
     if (admin) {

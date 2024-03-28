@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardMedia, Divider, Typography } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -6,36 +6,35 @@ import { Link, useParams } from "react-router-dom";
 import Post from "../components/Post";
 
 const UserProfile = () => {
-  const { id } = useParams()
+  const {gid}  = useParams()
+  console.log(gid);
   const [data, setData] = useState("");
-  const [tpost, setTpost] = useState("");
-  const [posts, setPOst] = useState([]);
-  const uid = sessionStorage.getItem("uid");
+  const [MyGame, setMyGame] = useState([]);
 
 
   const fetchData = () => {
-    axios.get("http://localhost:5000/user/" + id).then((res) => {
+    axios.get("http://localhost:5000/user/" + gid).then((res) => {
       console.log(res.data);
       setData(res.data);
     });
-    axios.get("http://localhost:5000/user/totalposts/" + id).then((res) => {
+
+  };
+
+  const fetchGameData = () => {
+    axios.get("http://localhost:5000/ReviewHead/" + gid).then((res) => {
       console.log(res.data);
-      setTpost(res.data.totalPosts);
+      setMyGame(res.data);
     });
+
   };
 
 
-  const fetchPost = () => {
-    axios.get("http://localhost:5000/postsSingleUser/" + id).then((res) => {
-      console.log(res.data);
-      setPOst(res.data);
-    });
-  };
 
- 
+
+
   useEffect(() => {
     fetchData();
-    fetchPost();
+    fetchGameData()
   }, []);
   return (
     <div>
@@ -69,7 +68,7 @@ const UserProfile = () => {
              
             
             </Box>
-            <Box display={"flex"} paddingTop={"30px"}>
+            {/* <Box display={"flex"} paddingTop={"30px"}>
               <Typography variant="h6">
                 <span style={{ fontWeight: "bold" }}>
                   {" "}
@@ -78,7 +77,7 @@ const UserProfile = () => {
                 Posts
               </Typography>
              
-            </Box>
+            </Box> */}
             <Typography
               variant="h6"
               sx={{ paddingTop: "20px", fontWeight: "bold" }}
@@ -99,9 +98,24 @@ const UserProfile = () => {
       </Box>
       <Divider sx={{ paddingTop: "50px" }} />
       <Box>
-        {posts.map((post) => (
-          <Post data={post} fetchPost={fetchPost} />
-        ))}
+        <Typography variant='h4' textAlign={'center'}>Games</Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, m: 2 }}>
+          {
+            MyGame && MyGame.map((item, key) => (
+              <Card key={key} sx={{ width: 280, height: 400, p: 2, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+                <CardMedia image={item.game.uploadfile} sx={{ width: 'inherit', height: 250, borderRadius: 5 }} />
+                <Typography>{item.game.name}</Typography>
+                <Typography>{item.game.desc}</Typography>
+                <Link to={`/User/ShowReview/${item.gameId}`}>
+
+                  <Button>View More</Button>
+                </Link>
+
+              </Card>
+            ))
+          }
+
+        </Box>
       </Box>
     </div>
   );

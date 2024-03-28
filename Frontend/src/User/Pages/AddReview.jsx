@@ -14,7 +14,7 @@ import {
   import SendIcon from "@mui/icons-material/Send";
   import axios from "axios";
   
-  const AddReview = (props) => {
+  const AddReview = ({gid,countData}) => {
     const paperStyle = {
       height: "80vh",
       padding: "20px",
@@ -39,18 +39,18 @@ import {
     };
     const ITEM_HEIGHT = 48;
   
-    const [comments, setComments] = useState("");
-    const [commentData, setCommentData] = useState([]);
+    const [review, setReview] = useState("");
+    const [reviewData, setReviewData] = useState([]);
   
     const uid = sessionStorage.getItem("uid");
-    const postId = props.post;
+    const gameId = gid
   
     const handleDelete = (id) => {
       axios
-        .delete("http://localhost:5000/comments/" + id)
+        .delete("http://localhost:5000/ReviewBody/" + id)
         .then((res) => {
           console.log(res.data);
-          fetchComment();
+          fetchReview();
         })
         .catch((err) => {
           console.log(err);
@@ -58,35 +58,35 @@ import {
       setAnchorEl(null);
     };
   
-    const handleComment = (e) => {
+    const handleReview = (e) => {
       e.preventDefault();
       const datas = {
-        commentContent: comments,
-        postId: postId,
+        content: review,
+        gameId: gameId,
         userId: uid,
       };
       console.log(datas);
   
-      axios.post("http://localhost:5000/addcomment", datas).then((res) => {
+      axios.post("http://localhost:5000/ReviewBody", datas).then((res) => {
         console.log(res.data);
-        fetchComment();
+        fetchReview();
       });
     };
-    const fetchComment = () => {
+    const fetchReview = () => {
       axios
-        .get("http://localhost:5000/comments/" + postId)
+        .get("http://localhost:5000/ReviewBody/" + gameId)
         .then((res) => {
           console.log(res.data);
-          setCommentData(res.data.comments);
-          setComments("");
-          props.countData();
+          setReviewData(res.data.reviewBody);
+          setReview("");
+          countData();
         })
         .catch((err) => {
           console.log(err);
         });
     };
     useEffect(() => {
-      fetchComment();
+      fetchReview();
     }, []);
   
     const handleEdit = () => {
@@ -96,7 +96,35 @@ import {
       <Box>
         <Paper elevation={2} sx={paperStyle}>
           <Box sx={{ height: "65vh", overflowY: "scroll", p: 2 }}>
-            {commentData.map((comment) => (
+
+          <Box sx={{ display: "flex", gap: 2, p: 2 }}>
+            <Avatar
+              alt="Remy Sharp"
+              src="https://mui.com/static/images/avatar/1.jpg"
+            />
+  
+            <OutlinedInput
+              components={"form"}
+              onChange={(e) => setReview(e.target.value)}
+              id="outlined-adornment-password"
+              sx={textStyle}
+              placeholder="Add a Review"
+              value={review}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                    type="submit"
+                    onClick={handleReview}
+                  >
+                    <SendIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Box>
+            { reviewData && reviewData.map((comment) => (
               <Box>
                 <Box display={"flex"}>
                   <Avatar
@@ -108,7 +136,7 @@ import {
                       <Typography sx={typoStyle}>
                         {comment.userId.userFullName}
                       </Typography>
-                      <span style={captionStyle}>{comment.commentContent}</span>
+                      <span style={captionStyle}>{comment.content}</span>
                     </Box>
                   </Box>
                 </Box>
@@ -143,7 +171,6 @@ import {
                         },
                       }}
                     >
-                      <MenuItem onClick={handleEdit}>Edit</MenuItem>
                       <MenuItem onClick={() => handleDelete(comment._id)}>
                         Delete
                       </MenuItem>
@@ -154,33 +181,7 @@ import {
             ))}
           </Box>
           {/* Add comment */}
-          <Box sx={{ display: "flex", gap: 2, p: 2 }}>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://mui.com/static/images/avatar/1.jpg"
-            />
-  
-            <OutlinedInput
-              components={"form"}
-              onChange={(e) => setComments(e.target.value)}
-              id="outlined-adornment-password"
-              sx={textStyle}
-              placeholder="Add a Comment"
-              value={comments}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    edge="end"
-                    type="submit"
-                    onClick={handleComment}
-                  >
-                    <SendIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </Box>
+         
         </Paper>
       </Box>
     );

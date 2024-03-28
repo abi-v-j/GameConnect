@@ -45,22 +45,7 @@ const Sidebar = ({mode,setMode}) => {
               <ListItemText primary="Friends" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
-               <Settings/>
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
-               <AccountBox/>
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItemButton>
-          </ListItem>
+         
           <ListItem disablePadding>
             <ListItemButton component="a" href="#home">
               <ListItemIcon>
