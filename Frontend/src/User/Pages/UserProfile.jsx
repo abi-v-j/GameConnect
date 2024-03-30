@@ -102,7 +102,7 @@ const UserProfile = () => {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, m: 2 }}>
           {
             MyGame && MyGame.map((item, key) => (
-              <Card key={key} sx={{ width: 280, height: 400, p: 2, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+              <Card key={key} sx={{ width: 270, height: 400, p: 2, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
                 <CardMedia image={item.game.uploadfile} sx={{ width: 'inherit', height: 250, borderRadius: 5 }} />
                 <Typography>{item.game.name}</Typography>
                 <Typography>{item.game.desc}</Typography>

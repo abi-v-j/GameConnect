@@ -141,8 +141,7 @@ import {
                   </Box>
                 </Box>
                 <Box display={"flex"}>
-                  <p style={{ color: "gray", paddingLeft: "50px" }}>16m</p>
-                  <p style={{ color: "gray", paddingLeft: "50px" }}>Reply</p>
+                 
                   {console.log(comment.userId._id)}
                   {uid===comment.userId._id?
                   <Box sx={{ paddingLeft: "400px" }}>

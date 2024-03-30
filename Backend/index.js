@@ -1158,6 +1158,7 @@ const devGameSchemaStructure = new mongoose.Schema({
     type: String,
     required: true,
   },
+ 
 });
 
 const DevGame = mongoose.model("devGameschema", devGameSchemaStructure);
@@ -1180,6 +1181,7 @@ const postdevHeadGameSchemaStructure = new mongoose.Schema({
     ref: "developer",
     required: true,
   },
+  
 });
 
 postdevHeadGameSchemaStructure.pre("save", function (next) {
@@ -1246,7 +1248,7 @@ app.post(
 
       res.json({ msg: "Inserted " }); // Return saved posts
     } catch (err) {
-      console.log(err.msg);
+      console.log(err);
       res.status(500).json({ msg: "Server Error" });
     }
   }

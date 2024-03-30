@@ -62,7 +62,7 @@ const Add = () => {
 
     // Append other form data
     formData.append("gameCaption", caption);
-    formData.append("userId", sessionStorage.getItem("uid"));
+    formData.append("developerId", sessionStorage.getItem("did"));
     formData.append("gameFile", game);
 
     // Append each file to the FormData object
