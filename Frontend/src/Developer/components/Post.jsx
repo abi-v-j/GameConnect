@@ -31,26 +31,12 @@ const Post = ({ data, fetchPost }) => {
   };
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
-  const [liked, setLiked] = useState(false);
   const [check, setCheck] = useState(false);
-  const uid = sessionStorage.getItem("uid");
+  const did = sessionStorage.getItem("did");
   const post = data._id;
-  const user = data.userId;
-  const userPhoto = data.user.userPhoto;
-  console.log(userPhoto);
+  const dev = data.developerId;
 
-  const LikeStatus = () => {
-    axios
-      .get("http://localhost:5000/LikeStatus/" + uid + "/" + post + "/")
-      .then((res) => {
-        if (res.data) {
-          setLiked(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+ 
 
   const countData = () => {
     axios.get("http://localhost:5000/likeCount/" + post).then((res) => {
@@ -62,30 +48,6 @@ const Post = ({ data, fetchPost }) => {
     });
   };
 
-  const handleLike = () => {
-    const datas = {
-      postId: post,
-      userId: uid,
-    };
-    axios.post("http://localhost:5000/like", datas).then((res) => {
-      console.log(res.data);
-      setLiked(true);
-      countData();
-    });
-  };
-
-  const handleDislike = (id) => {
-    axios
-      .delete("http://localhost:5000/like/" + uid + "/" + post)
-      .then((res) => {
-        console.log(res.data);
-        setLiked(false);
-        countData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const handleDelete = (id) => {
     axios.delete("http://localhost:5000/posts/" + id).then((res) => {
@@ -99,7 +61,6 @@ const Post = ({ data, fetchPost }) => {
   };
 
   useEffect(() => {
-    LikeStatus();
     countData();
   }, []);
 
@@ -107,17 +68,15 @@ const Post = ({ data, fetchPost }) => {
     <Card sx={{ margin: 5 }}>
       <CardHeader
         avatar={
-          userPhoto ? (
-            <Avatar src="userPhoto"></Avatar>
-          ) : (
-            <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-              {data.user.userFullName.charAt(0)}
-            </Avatar>
-          )
+
+          <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+            {data.dev.devName.charAt(0)}
+          </Avatar>
+
         }
 
         action={
-          uid === user ? (
+          did  === dev ? (
             <Box>
               <IconButton
                 aria-label="more"
@@ -175,7 +134,7 @@ const Post = ({ data, fetchPost }) => {
                   },
                 }}
               >
-                <Link to={`/User/userprofile/${data.user._id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                <Link to={`/User/userprofile/${data.dev._id}`} style={{ textDecoration: 'none', color: 'black' }}>
 
                   <MenuItem >View Profile</MenuItem>
                 </Link>
@@ -185,7 +144,7 @@ const Post = ({ data, fetchPost }) => {
             </Box>
           )
         }
-        title={data.user.userFullName}
+        title={data.dev.devName}
         subheader="September 14, 2016"
       />
       <Carousel height={"500px"} stopAutoPlayOnHover={true} autoPlay={false}>
@@ -216,18 +175,17 @@ const Post = ({ data, fetchPost }) => {
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          <b style={{ color: "black" }}> {data.user.userName} </b>{" "}
+          <b style={{ color: "black" }}> {data.dev.devName} </b>{" "}
           {data.postCaption}
         </Typography>
       </CardContent>
+      <a href={data.postgameFile} download={true} >Click here to download</a>
       <CardActions disableSpacing>
         <IconButton
           aria-label="add to favorites"
-          onClick={() => {
-            liked ? handleDislike() : handleLike();
-          }}
+         
         >
-          {liked ? <FavoriteOutlinedIcon color="error" /> : <FavoriteBorder />}
+          <FavoriteOutlinedIcon color="error" /> 
           {likes > 0 ? (
             <span style={{ fontSize: "15px", paddingLeft: "5px" }}>
               {likes}

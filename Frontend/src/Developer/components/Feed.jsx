@@ -5,9 +5,11 @@ import axios from "axios";
 
 const Feed = () => {
   const [posts, setPOst] = useState([]);
+  const did = sessionStorage.getItem("did");
+
 
   const fetchPost = () => {
-    axios.get("http://localhost:5000/posts").then((res) => {
+    axios.get(`http://localhost:5000/gameSingleUser/${did}`).then((res) => {
       console.log(res.data);
       setPOst(res.data);
     });

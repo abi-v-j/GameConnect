@@ -63,10 +63,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/user/" + uid).then((res) => {
-      console.log(res.data);
-      setName(res.data.userFullName);
-    });
+    // axios.get("http://localhost:5000/user/" + uid).then((res) => {
+    //   console.log(res.data);
+    //   setName(res.data.userFullName);
+    // });
   }, []);
 
   const handleClick = (newPlacement) => (event) => {

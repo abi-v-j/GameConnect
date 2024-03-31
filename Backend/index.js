@@ -1158,7 +1158,7 @@ const devGameSchemaStructure = new mongoose.Schema({
     type: String,
     required: true,
   },
- 
+
 });
 
 const DevGame = mongoose.model("devGameschema", devGameSchemaStructure);
@@ -1181,7 +1181,7 @@ const postdevHeadGameSchemaStructure = new mongoose.Schema({
     ref: "developer",
     required: true,
   },
-  
+
 });
 
 postdevHeadGameSchemaStructure.pre("save", function (next) {
@@ -1612,5 +1612,179 @@ app.post("/login", async (req, res) => {
     }
   } catch (err) {
     console.error("Error", err);
+  }
+});
+
+
+
+
+//Post Find
+app.get("/games", async (req, res) => {
+  try {
+    const posts = await DevGame.aggregate([
+      {
+        $lookup: {
+          from: "postdevheadgameschemas", // Collection name of PostHead model
+          localField: "postHeadId",
+          foreignField: "_id",
+          as: "postHead",
+        },
+      },
+      {
+        $unwind: "$postHead", // Deconstructs the postHead array created by $lookup
+      },
+      {
+        $lookup: {
+          from: "developers", // Collection name of User model
+          localField: "postHead.developerId",
+          foreignField: "_id",
+          as: "dev",
+        },
+      },
+      {
+        $unwind: "$dev", // Deconstructs the user array created by $lookup
+      },
+      {
+        $group: {
+          _id: "$postHeadId", // Group posts by postHeadId
+          postHead: { $first: "$postHead" }, // Take the first postHead object in each group
+          dev: { $first: "$dev" }, // Take the first user object in each group
+          posts: { $push: "$$ROOT" }, // Push all posts in the group into an array
+        },
+      },
+      {
+        $project: {
+          // Select fields to include in the final output
+          _id: "$postHead._id",
+          postCaption: "$postHead.postCaption",
+          postDateTime: "$postHead.postDateTime",
+          postgameFile: "$postHead.gameFile",
+          developerId: "$postHead.developerId",
+          dev: {
+            _id: "$dev._id",
+            devName: "$dev.name",
+            devEmail: "$dev.email",
+           
+          },
+          posts: {
+            $map: {
+              // Map posts array to include only necessary fields
+              input: "$posts",
+              as: "post",
+              in: {
+                _id: "$$post._id",
+                postFile: "$$post.postFile",
+                postType: "$$post.postType",
+              },
+            },
+          },
+        },
+      },
+      {
+        $sort: { postDateTime: -1 }, // Sort posts by postDateTime in descending order
+      },
+    ]);
+
+    console.log(posts);
+
+    if (!posts || posts.length === 0) {
+      return res.json([]);
+    } else {
+      res.status(200).json(posts);
+    }
+  } catch (err) {
+    console.error("Error", err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+
+
+
+app.get("/gameSingleUser/:id", async (req, res) => {
+  try {
+    let id = req.params.id;
+    id = new ObjectId(id);
+
+
+    const posts = await DevGame.aggregate([
+      {
+        $lookup: {
+          from: "postdevheadgameschemas", // Collection name of PostHead model
+          localField: "postHeadId",
+          foreignField: "_id",
+          as: "postHead",
+        },
+      },
+      {
+        $match: { "postHead.developerId": id }, // Filter posts by userId
+      },
+      {
+        $unwind: "$postHead", // Deconstructs the postHead array created by $lookup
+      },
+      {
+        $lookup: {
+          from: "developers", // Collection name of User model
+          localField: "postHead.developerId",
+          foreignField: "_id",
+          as: "dev",
+        },
+      },
+      {
+        $unwind: "$dev", // Deconstructs the user array created by $lookup
+      },
+      {
+        $group: {
+          _id: "$postHeadId", // Group posts by postHeadId
+          postHead: { $first: "$postHead" }, // Take the first postHead object in each group
+          dev: { $first: "$dev" }, // Take the first user object in each group
+          posts: { $push: "$$ROOT" }, // Push all posts in the group into an array
+        },
+      },
+      {
+        $project: {
+          // Select fields to include in the final output
+          _id: "$postHead._id",
+          postCaption: "$postHead.postCaption",
+          postDateTime: "$postHead.postDateTime",
+          postgameFile: "$postHead.gameFile",
+          developerId: "$postHead.developerId",
+          dev: {
+            _id: "$dev._id",
+            devName: "$dev.name",
+            devEmail: "$dev.email",
+           
+          },
+          posts: {
+            $map: {
+              // Map posts array to include only necessary fields
+              input: "$posts",
+              as: "post",
+              in: {
+                _id: "$$post._id",
+                postFile: "$$post.postFile",
+                postType: "$$post.postType",
+              },
+            },
+          },
+        },
+      },
+      {
+        $sort: { postDateTime: -1 }, // Sort posts by postDateTime in descending order
+      },
+    ]);
+
+   
+
+    console.log(posts);
+
+    if (!posts || posts.length === 0) {
+      return res.json([]);
+    } else {
+      res.status(200).json(posts);
+    }
+  } catch (err) {
+    console.error("Error", err);
+    res.status(500).json({ msg: "Server Error" });
   }
 });

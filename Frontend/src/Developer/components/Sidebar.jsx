@@ -29,31 +29,10 @@ const Sidebar = ({mode,setMode}) => {
               <ListItemText primary="Feeds" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
-               <Groups/>
-              </ListItemIcon>
-              <ListItemText primary="Chats" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
-              <Person/>
-              </ListItemIcon>
-              <ListItemText primary="Friends" />
-            </ListItemButton>
-          </ListItem>
-         
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
-               <ModeNight/>
-              </ListItemIcon>
-              <Switch onChange={e=>setMode(mode==="light" ? "dark" : "light")} /> 
-            </ListItemButton>
-          </ListItem>
+        
+       
+        
+        
         </List>
       </Box>
     </Box>
