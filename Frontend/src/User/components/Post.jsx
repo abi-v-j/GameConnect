@@ -243,9 +243,7 @@ const Post = ({ data, fetchPost }) => {
             </span>
           ) : null}
         </IconButton>
-        <IconButton aria-label="share">
-          <Share />
-        </IconButton>
+       
       </CardActions>
       {check && <Comment post={post} countData={countData} />}
     </Card>
