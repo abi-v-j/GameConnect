@@ -3,33 +3,32 @@ import axios from 'axios';
 import React, { useState } from 'react'
 
 const Changepassword = () => {
-  const [oldPass,setOldPass]=useState('');
-   const [newPass,setNewPass]=useState('');
-   const [repass,setRePass]= useState('');
+  const [oldPass, setOldPass] = useState('');
+  const [newPass, setNewPass] = useState('');
+  const [repass, setRePass] = useState('');
 
-   const uid = sessionStorage.getItem("uid");
+  const did = sessionStorage.getItem("did");
 
-   const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if(newPass==repass){
-      const data={
-        userPassword:oldPass,
-        userNewPassword:newPass,
+
+    if (newPass == repass) {
+      const data = {
+        password: newPass,
       };
-    axios.put("http://localhost:5000/changepassword/"+uid,data).then((res)=>{
-      console.log(res.data);
-      setOldPass('');
-      setNewPass('');
-      setRePass('');
-      
-    })
+      axios.put("http://localhost:5000/DeveloperChange/" + did, data).then((res) => {
+        console.log(res.data);
+        setOldPass('');
+        setNewPass('');
+        setRePass('');
+
+      })
     }
-    else{
+    else {
       alert('Passwords do not match!');
     }
 
-   }
+  }
   return (
     <div>
       <Box padding={5}>
@@ -40,7 +39,7 @@ const Changepassword = () => {
               alt="Remy Sharp"
               src="https://material-ui.com/static/images/avatar/1.jpg"
             ></Avatar>
-            <Typography style={{marginTop:'10px', marginLeft: "0", marginBottom: "45px" }}>
+            <Typography style={{ marginTop: '10px', marginLeft: "0", marginBottom: "45px" }}>
               @USERName
             </Typography>
           </Box>
@@ -56,7 +55,7 @@ const Changepassword = () => {
             }}
           >
             <Typography sx={{ width: "80px" }}>Old Password</Typography>
-            <TextField id="standard-basic" variant="outlined" onChange={(e)=>setOldPass(e.target.value)} value={oldPass}/>
+            <TextField id="standard-basic" variant="outlined" onChange={(e) => setOldPass(e.target.value)} value={oldPass} />
           </Box>
           <Box
             sx={{
@@ -67,7 +66,7 @@ const Changepassword = () => {
             }}
           >
             <Typography sx={{ width: "80px" }}>New Password</Typography>
-            <TextField id="standard-basic" variant="outlined" onChange={(e)=>setNewPass(e.target.value)} value={newPass}/>
+            <TextField id="standard-basic" variant="outlined" onChange={(e) => setNewPass(e.target.value)} value={newPass} />
           </Box>
           <Box
             sx={{
@@ -78,7 +77,7 @@ const Changepassword = () => {
             }}
           >
             <Typography sx={{ width: "80px" }}>Confirm Password</Typography>
-            <TextField id="standard-basic" variant="outlined" onChange={(e)=>setRePass(e.target.value)} value={repass}/>
+            <TextField id="standard-basic" variant="outlined" onChange={(e) => setRePass(e.target.value)} value={repass} />
           </Box>
           <Box display={"flex"} justifyContent={"center"} margin={"20px"}>
             <Button type='submit' sx={{ marginLeft: "40px" }} variant="contained">

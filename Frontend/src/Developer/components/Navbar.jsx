@@ -57,10 +57,7 @@ const Navbar = () => {
 
   const uid = sessionStorage.getItem("uid");
 
-  const logOut = () => {
-    sessionStorage.clear();
-    navigate("../../guest/login");
-  };
+ 
 
   useEffect(() => {
     // axios.get("http://localhost:5000/user/" + uid).then((res) => {
@@ -116,12 +113,13 @@ const Navbar = () => {
         }}
       >
         <MenuItem>{name}</MenuItem>
-        <Link to={'/User/MyProfile/'} style={{textDecoration:'none',color:'inherit'}}>
+        <Link to={'/Developer/MyProfile/'} style={{textDecoration:'none',color:'inherit'}}>
           <MenuItem>Profile</MenuItem>
         </Link>
+        <Link to={'/'} style={{textDecoration:'none',color:'inherit'}}>
 
-        <MenuItem>My account</MenuItem>
-        <MenuItem onClick={logOut}>Logout</MenuItem>
+        <MenuItem>Logout</MenuItem>
+        </Link>
       </Menu>
       <Popper
         // Note: The following zIndex style is specifically for documentation purposes and may not be necessary in your application.

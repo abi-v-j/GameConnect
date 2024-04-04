@@ -65,7 +65,7 @@ const MyProfile = () => {
               </Typography>
               <Button sx={{ marginLeft: "30px" }} variant="contained">
                 <Link
-                  to="/user/editprofile"
+                  to="/Developer/editprofile"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   Edit Profile
@@ -73,14 +73,12 @@ const MyProfile = () => {
               </Button>
 
               <Button sx={{ marginLeft: "30px" }} variant="contained">
-                <Link to={'/user/AddGame'}
+                <Link to={'/Developer/changepassword'}
                   style={{ textDecoration: "none", color: "inherit" }}>
-                  Add Game
+                  Change Password
                 </Link>
               </Button>
-              <SettingsIcon
-                sx={{ paddingLeft: "25px", width: "50px", height: "30px" }}
-              />
+              
             </Box>
             <Box display={"flex"} paddingTop={"30px"}>
 
@@ -101,30 +99,8 @@ const MyProfile = () => {
           </Box>
         </Box>
       </Box>
-      <Box padding={"10px"}>
-
-      </Box>
-      <Divider sx={{ paddingTop: "50px" }} />
-      <Box>
-        <Typography variant='h4' textAlign={'center'}>Games</Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, m: 2 }}>
-          {
-            MyGame && MyGame.map((item, key) => (
-              <Card key={key} sx={{ width: 280, height: 400, p: 2, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
-                <CardMedia image={item.game.uploadfile} sx={{ width: 'inherit', height: 250, borderRadius: 5 }} />
-                <Typography>{item.game.name}</Typography>
-                <Typography>{item.game.desc}</Typography>
-                <Link to={`/User/ShowReview/${item.gameId}`}>
-
-                  <Button>View More</Button>
-                </Link>
-
-              </Card>
-            ))
-          }
-
-        </Box>
-      </Box>
+     
+     
     </div>
   );
 };

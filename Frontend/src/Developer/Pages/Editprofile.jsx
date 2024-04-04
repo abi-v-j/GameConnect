@@ -15,31 +15,28 @@ import React, { useEffect, useState } from "react";
 
 const Editprofile = () => {
   const [fullName, setFullName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [contact, setContact] = useState("");
-  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
 
-  const uid = sessionStorage.getItem("uid");
+
+  const did = sessionStorage.getItem("did");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      userFullName: fullName,
-      userName: userName,
-      userContact: contact,
-      userGender: gender,
+      name: fullName,
+     email,
+     
     };
-    axios.put("http://localhost:5000/user/" + uid, data).then((res) => {
+    axios.put("http://localhost:5000/Developer/" + did, data).then((res) => {
       console.log(res.data);
     });
   };
 
   const fetchData = () => {
-    axios.get("http://localhost:5000/user/" + uid).then((res) => {
-      setFullName(res.data.userFullName);
-      setUserName(res.data.userName);
-      setContact(res.data.userContact);
-      setGender(res.data.userGender);
+    axios.get("http://localhost:5000/Developer/" + did).then((res) => {
+      setFullName(res.data.name);
+      setEmail(res.data.email);
+     
     });
   };
   useEffect(() => {
@@ -55,9 +52,7 @@ const Editprofile = () => {
               alt="Remy Sharp"
               src="https://material-ui.com/static/images/avatar/1.jpg"
             ></Avatar>
-            <p style={{ marginLeft: "0", marginBottom: "45px" }}>
-              Change Profile Picture
-            </p>
+           
           </Box>
         </Box>
         <Divider />
@@ -87,70 +82,16 @@ const Editprofile = () => {
               justifyContent: "center",
             }}
           >
-            <Typography sx={{ width: "80px" }}>Username</Typography>
+            <Typography sx={{ width: "80px" }}>Email</Typography>
             <TextField
               id="standard-basic"
               variant="outlined"
               sx={{ width: "250px" }}
-              onChange={(e) => setUserName(e.target.value)}
-              value={userName}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              padding: "20px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{ width: "80px" }}>Bio</Typography>
-            <TextField
-              id="standard-basic"
-              variant="outlined"
-              multiline
-              sx={{ width: "250px" }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              padding: "20px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{ width: "80px" }}>Contact</Typography>
-            <TextField
-              id="standard-basic"
-              variant="outlined"
-              sx={{ width: "250px" }}
-              onChange={(e) => setContact(e.target.value)}
-              value={contact}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              padding: "20px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{ width: "80px" }}>Gender</Typography>
-            <FormControl sx={{ width: "250px" }}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={(e) => setGender(e.target.value)}
-                value={gender}
-              >
-                <MenuItem value={'Male'} >Male</MenuItem>
-                <MenuItem value={'Female'} >Female</MenuItem>
-                <MenuItem value={'Other'} >Other</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+          
           <Box display={"flex"} justifyContent={"center"} margin={"20px"}>
             <Button
               type="submit"

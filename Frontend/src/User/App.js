@@ -12,6 +12,7 @@ import MyProfile from "./Pages/MyProfile";
 import UserProfile from "./Pages/UserProfile";
 import AddGame from "./Pages/AddGame";
 import ShowReview from "./Pages/ShowReview";
+import AddedGameFeed from "./Pages/AddedGameFeed";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -37,6 +38,7 @@ function App() {
               <Route path="/userprofile/:gid" element={<UserProfile />} />
               <Route path="/AddGame" element={<AddGame />} />
               <Route path="/ShowReview/:gid" element={<ShowReview />} />
+              <Route path="/GameFeed" element={<AddedGameFeed />} />
             </Routes>
           </Box>
 

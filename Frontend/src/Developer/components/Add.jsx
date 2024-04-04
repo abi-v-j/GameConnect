@@ -155,7 +155,7 @@ const Add = () => {
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
             >
-              Upload file
+              Upload Photos
               <VisuallyHiddenInput multiple type="file" onChange={FileHandle} />
             </Button>
 
@@ -169,7 +169,7 @@ const Add = () => {
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
             >
-              Upload file
+              Upload Game File
               <VisuallyHiddenInput multiple type="file" onChange={(event) => setGame(event.target.files[0])} />
             </Button>
 

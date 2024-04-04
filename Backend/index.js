@@ -1561,14 +1561,29 @@ app.put('/Developer/:Id', async (req, res) => {
   const {
     name,
     email,
-    proof,
-    password,
+   
   } = req.body
   const developer = await Developer.findByIdAndUpdate(Id, {
     name,
     email,
-    proof,
-    password,
+   
+  }, { new: true })
+  res.send(developer)
+
+})
+
+
+
+// developer Update
+app.put('/DeveloperChange/:Id', async (req, res) => {
+  const Id = req.params.Id
+  const {
+   password,
+   
+  } = req.body
+  const developer = await Developer.findByIdAndUpdate(Id, {
+    password
+   
   }, { new: true })
   res.send(developer)
 

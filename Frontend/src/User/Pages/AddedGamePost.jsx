@@ -14,12 +14,13 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
+import Comment from "../Pages/Comment";
+import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
 import Carousel from "react-material-ui-carousel";
 import { Link } from "react-router-dom";
 
-const Post = ({ data, fetchPost }) => {
+const AddedGamePost = ({ data, fetchPost }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -28,7 +29,7 @@ const Post = ({ data, fetchPost }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [check, setCheck] = useState(false);
+
   const did = sessionStorage.getItem("did");
   const post = data._id;
   const dev = data.developerId;
@@ -36,18 +37,9 @@ const Post = ({ data, fetchPost }) => {
  
 
 
-  const handleDelete = (id) => {
-    axios.delete("http://localhost:5000/posts/" + id).then((res) => {
-      console.log(res.data);
-      fetchPost();
-    });
-    setAnchorEl(null);
-  };
-  const handleEdit = (id) => {
-    setAnchorEl(null);
-  };
 
 
+  
 
   return (
     <Card sx={{ margin: 5 }}>
@@ -60,43 +52,11 @@ const Post = ({ data, fetchPost }) => {
 
         }
 
-        action={
-         
-            <Box>
-              <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVert />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: "ITEM_HEIGHT * 4.5",
-                    width: "20ch",
-                  },
-                }}
-              >
-                <MenuItem onClick={() => handleDelete(post)}>Delete</MenuItem>
-              </Menu>
-            </Box>
-          
-        }
+       
         title={data.dev.devName}
         subheader="September 14, 2016"
       />
-      <Carousel height={"500px"} stopAutoPlayOnHover={true} autoPlay={false}>
+      <Carousel height={"400px"} stopAutoPlayOnHover={true} autoPlay={false}>
         {data.posts.map((post, key) => (
           <Box key={key}>
             {post.postType === "image" ? (
@@ -128,12 +88,13 @@ const Post = ({ data, fetchPost }) => {
           {data.postCaption}
         </Typography>
       </CardContent>
-      <a href={data.postgameFile} download={true} >Click here to download</a>
+      <a href={data.postgameFile} download={true} style={{ width:'200px',height:'50px', backgroundColor:'blue',color:'white',padding:'5px',borderRadius:'10px',textDecoration:'none'}} >Click here to download</a>
       <CardActions disableSpacing>
        
+      
       </CardActions>
     </Card>
   );
 };
 
-export default Post;
+export default AddedGamePost;
