@@ -37,7 +37,7 @@ const Post = ({ data, fetchPost }) => {
 
 
   const handleDelete = (id) => {
-    axios.delete("http://localhost:5000/posts/" + id).then((res) => {
+    axios.delete("http://localhost:5000/postDevGame/" + id).then((res) => {
       console.log(res.data);
       fetchPost();
     });

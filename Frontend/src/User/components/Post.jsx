@@ -108,7 +108,7 @@ const Post = ({ data, fetchPost }) => {
       <CardHeader
         avatar={
           userPhoto ? (
-            <Avatar src="userPhoto"></Avatar>
+            <Avatar src={userPhoto}></Avatar>
           ) : (
             <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
               {data.user.userFullName.charAt(0)}
@@ -144,7 +144,6 @@ const Post = ({ data, fetchPost }) => {
                   },
                 }}
               >
-                <MenuItem onClick={handleEdit}>Edit</MenuItem>
                 <MenuItem onClick={() => handleDelete(post)}>Delete</MenuItem>
               </Menu>
             </Box>
@@ -186,9 +185,8 @@ const Post = ({ data, fetchPost }) => {
           )
         }
         title={data.user.userFullName}
-        subheader="September 14, 2016"
       />
-      <Carousel height={"500px"} stopAutoPlayOnHover={true} autoPlay={false}>
+      <Carousel height={"400px"} stopAutoPlayOnHover={true} autoPlay={false}>
         {data.posts.map((post, key) => (
           <Box key={key}>
             {post.postType === "image" ? (

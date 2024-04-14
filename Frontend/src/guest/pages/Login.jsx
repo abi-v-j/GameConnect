@@ -19,6 +19,7 @@ const Login = () => {
     axios.post("http://localhost:5000/login", data).then((response) => {
       console.log(response.data);
       const { id, login } = response.data
+      console.log(login);
       if (login === 'Admin') {
         sessionStorage.setItem('aid', id)
         navigate("../../Admin")
@@ -32,8 +33,8 @@ const Login = () => {
         sessionStorage.setItem('did', id)
         navigate("../../Developer")
       }
-      else {
-
+      else if(login === 'error'){
+        alert('Invalid Credentials');
       }
     });
 

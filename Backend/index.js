@@ -375,6 +375,31 @@ app.put("/User/:id", async (req, res) => {
   }
 });
 
+app.put(
+  "/UploadProfile/:Id",
+  upload.fields([{ name: "userPhoto", maxCount: 1 }]),
+  async (req, res) => {
+    try {
+      const Id = req.params.Id
+      var fileValue = JSON.parse(JSON.stringify(req.files));
+      var userPhoto = `http://127.0.0.1:${port}/images/${fileValue.userPhoto[0].filename}`;
+
+      await User.findByIdAndUpdate(
+        Id,
+        {
+          userPhoto,
+        },
+        { new: true }
+      );
+
+      res.json({ message: "Profile inserted succesfully" });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
 //User Change Password
 
 app.put("/changepassword/:id", async (req, res) => {
@@ -721,21 +746,17 @@ app.get("/postsSingleUser/:id", async (req, res) => {
 
 // //Post Delete
 
-// app.delete("/posts/:id", async (req, res) => {
-//   try {
-//     const postId = req.params.id;
-//     const deletedPost = await Post.findByIdAndDelete(postId);
-//     await Comment.deleteMany({ postId });
-//     if (!deletedPost) {
-//       return res.status(404).json({ message: "Post not found" });
-//     } else {
-//       res.json({ message: "Post deleted successfully", deletedPost });
-//     }
-//   } catch (err) {
-//     console.error("Error Deleting Post", err);
-//     res.status(500).json({ msg: "Server Error" });
-//   }
-// });
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const deletedPost = await PostHead.findByIdAndDelete(postId);
+   
+      res.json({ message: "Post deleted successfully"});
+  } catch (err) {
+    console.error("Error Deleting Post", err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
 
 //commentSchema
 
@@ -1255,6 +1276,18 @@ app.post(
 );
 
 
+app.delete("/postDevGame/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const deletedPost = await DevGameHead.findByIdAndDelete(postId);
+   
+      res.json({ message: "Post deleted successfully"});
+  } catch (err) {
+    console.error("Error Deleting Post", err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 
 
 
@@ -1623,6 +1656,11 @@ app.post("/login", async (req, res) => {
       res.send({
         id: admin._id,
         login: "Admin",
+      });
+    }
+    if (!admin && !developer && !user) {
+      res.send({
+        login: "error",
       });
     }
   } catch (err) {

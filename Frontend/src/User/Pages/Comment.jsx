@@ -41,9 +41,17 @@ const Comment = (props) => {
 
   const [comments, setComments] = useState("");
   const [commentData, setCommentData] = useState([]);
+  const [data, setData] = useState("");
 
   const uid = sessionStorage.getItem("uid");
   const postId = props.post;
+
+  const fetchData = () => {
+    axios.get("http://localhost:5000/user/" + uid).then((res) => {
+      console.log(res.data);
+      setData(res.data);
+    });
+  };
 
   const handleDelete = (id) => {
     axios
@@ -87,6 +95,7 @@ const Comment = (props) => {
   };
   useEffect(() => {
     fetchComment();
+    fetchData();
   }, []);
 
   const handleEdit = () => {
@@ -99,10 +108,13 @@ const Comment = (props) => {
           {commentData.map((comment) => (
             <Box>
               <Box display={"flex"}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://mui.com/static/images/avatar/1.jpg"
-                />
+                {comment.userId.userPhoto ? (
+                  <Avatar src={comment.userId.userPhoto}></Avatar>
+                ) : (
+                  <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+                    {comment.userId.userFullName.charAt(0)}
+                  </Avatar>
+                )}
                 <Box display={"flex"} paddingLeft={"13px"}>
                   <Box sx={{ paddingLeft: "10px" }}>
                     <Typography sx={typoStyle}>
@@ -113,52 +125,55 @@ const Comment = (props) => {
                 </Box>
               </Box>
               <Box display={"flex"}>
-                <p style={{ color: "gray", paddingLeft: "50px" }}>16m</p>
-                <p style={{ color: "gray", paddingLeft: "50px" }}>Reply</p>
+                <p style={{ color: "gray", paddingLeft: "50px" }}></p>
                 {console.log(comment.userId._id)}
-                {uid===comment.userId._id?
-                <Box sx={{ paddingLeft: "400px" }}>
-                  <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={open ? "long-menu" : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="long-menu"
-                    MenuListProps={{
-                      "aria-labelledby": "long-button",
-                    }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    PaperProps={{
-                      style: {
-                        maxHeight: "ITEM_HEIGHT * 4.5",
-                        width: "20ch",
-                      },
-                    }}
-                  >
-                    <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                    <MenuItem onClick={() => handleDelete(comment._id)}>
-                      Delete
-                    </MenuItem>
-                  </Menu>
-                </Box>:undefined }
+                {uid === comment.userId._id ? (
+                  <Box sx={{ paddingLeft: "400px" }}>
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? "long-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="long-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "long-button",
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      PaperProps={{
+                        style: {
+                          maxHeight: "ITEM_HEIGHT * 4.5",
+                          width: "20ch",
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                      <MenuItem onClick={() => handleDelete(comment._id)}>
+                        Delete
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                ) : undefined}
               </Box>
             </Box>
           ))}
         </Box>
         {/* Add comment */}
         <Box sx={{ display: "flex", gap: 2, p: 2 }}>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://mui.com/static/images/avatar/1.jpg"
-          />
+          {data.userPhoto ? (
+            <Avatar src={data.userPhoto}></Avatar>
+          ) : (
+            <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+              {data.userFullName}
+            </Avatar>
+          )}
 
           <OutlinedInput
             components={"form"}

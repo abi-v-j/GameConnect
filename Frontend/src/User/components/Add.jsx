@@ -73,6 +73,8 @@ const Add = () => {
       .post("http://localhost:5000/addpost", formData)
       .then((res) => {
         console.log(res.data);
+        setOpen(false)
+
       })
       .catch((error) => {
         console.error("Error uploading files:", error);

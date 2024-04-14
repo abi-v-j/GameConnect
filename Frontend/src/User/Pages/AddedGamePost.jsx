@@ -54,7 +54,6 @@ const AddedGamePost = ({ data, fetchPost }) => {
 
        
         title={data.dev.devName}
-        subheader="September 14, 2016"
       />
       <Carousel height={"400px"} stopAutoPlayOnHover={true} autoPlay={false}>
         {data.posts.map((post, key) => (

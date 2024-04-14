@@ -48,19 +48,7 @@ const Editprofile = () => {
   return (
     <div>
       <Box padding={5}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ flexDirection: "column" }}>
-            <Avatar
-              sx={{ bgcolor: "secondary.main", width: 100, height: 100 }}
-              alt="Remy Sharp"
-              src="https://material-ui.com/static/images/avatar/1.jpg"
-            ></Avatar>
-            <p style={{ marginLeft: "0", marginBottom: "45px" }}>
-              Change Profile Picture
-            </p>
-          </Box>
-        </Box>
-        <Divider />
+       
         <Box sx={{ m: 5 }} component={"form"} onSubmit={handleSubmit}>
           <Box
             sx={{
@@ -96,61 +84,7 @@ const Editprofile = () => {
               value={userName}
             />
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              padding: "20px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{ width: "80px" }}>Bio</Typography>
-            <TextField
-              id="standard-basic"
-              variant="outlined"
-              multiline
-              sx={{ width: "250px" }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              padding: "20px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{ width: "80px" }}>Contact</Typography>
-            <TextField
-              id="standard-basic"
-              variant="outlined"
-              sx={{ width: "250px" }}
-              onChange={(e) => setContact(e.target.value)}
-              value={contact}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              padding: "20px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{ width: "80px" }}>Gender</Typography>
-            <FormControl sx={{ width: "250px" }}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={(e) => setGender(e.target.value)}
-                value={gender}
-              >
-                <MenuItem value={'Male'} >Male</MenuItem>
-                <MenuItem value={'Female'} >Female</MenuItem>
-                <MenuItem value={'Other'} >Other</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+         
           <Box display={"flex"} justifyContent={"center"} margin={"20px"}>
             <Button
               type="submit"

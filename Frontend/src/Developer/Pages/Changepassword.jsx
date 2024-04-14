@@ -32,19 +32,7 @@ const Changepassword = () => {
   return (
     <div>
       <Box padding={5}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ flexDirection: "column" }}>
-            <Avatar
-              sx={{ bgcolor: "secondary.main", width: 80, height: 80 }}
-              alt="Remy Sharp"
-              src="https://material-ui.com/static/images/avatar/1.jpg"
-            ></Avatar>
-            <Typography style={{ marginTop: '10px', marginLeft: "0", marginBottom: "45px" }}>
-              @USERName
-            </Typography>
-          </Box>
-        </Box>
-        <Divider />
+       
         <Box sx={{ m: 5 }} component={'form'} onSubmit={handleSubmit}>
           <Box
             sx={{

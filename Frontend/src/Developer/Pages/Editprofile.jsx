@@ -45,17 +45,7 @@ const Editprofile = () => {
   return (
     <div>
       <Box padding={5}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ flexDirection: "column" }}>
-            <Avatar
-              sx={{ bgcolor: "secondary.main", width: 100, height: 100 }}
-              alt="Remy Sharp"
-              src="https://material-ui.com/static/images/avatar/1.jpg"
-            ></Avatar>
-           
-          </Box>
-        </Box>
-        <Divider />
+       
         <Box sx={{ m: 5 }} component={"form"} onSubmit={handleSubmit}>
           <Box
             sx={{

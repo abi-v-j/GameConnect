@@ -1,7 +1,7 @@
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from "@mui/material";
 import React from "react";
 import { AccountBox, Article, Groups, Home, ModeNight, Person, Settings } from "@mui/icons-material";
-
+import {Link} from 'react-router-dom'
 const Sidebar = ({mode,setMode}) => {
   return (
     <Box
@@ -14,36 +14,56 @@ const Sidebar = ({mode,setMode}) => {
 
       <List >
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
+            <Link to={'/User/'}  style={{textDecoration:'none',color:'black'}}>
+            <ListItemButton >
+
               <ListItemIcon>
                <Home/>
               </ListItemIcon>
               <ListItemText primary="Home" />
+              
             </ListItemButton>
+            </Link>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
+          <Link to={'/User/GameFeed/'}  style={{textDecoration:'none',color:'black'}}>
+            <ListItemButton >
               <ListItemIcon>
                <Article/>
               </ListItemIcon>
-              <ListItemText primary="Feeds" />
+              <ListItemText primary="Game Feed" />
             </ListItemButton>
+            </Link>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
+          <Link to={'/User/myprofile/'}  style={{textDecoration:'none',color:'black'}}>
+            <ListItemButton >          
+                  <ListItemIcon>
                <Groups/>
               </ListItemIcon>
-              <ListItemText primary="Chats" />
+              <ListItemText primary="Profile" />
             </ListItemButton>
+            </Link>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
+          <Link to={'/User/changepassword'}  style={{textDecoration:'none',color:'black'}}>
+            <ListItemButton >        
+                            <ListItemIcon>
               <Person/>
               </ListItemIcon>
-              <ListItemText primary="Friends" />
+              <ListItemText primary="Change Password" />
             </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem disablePadding>
+          <Link to={'/'}  style={{textDecoration:'none',color:'black'}}>
+            <ListItemButton >        
+                            <ListItemIcon>
+              <Person/>
+              </ListItemIcon>
+              <ListItemText primary="LogOut" />
+            </ListItemButton>
+            </Link>
           </ListItem>
          
           <ListItem disablePadding>
