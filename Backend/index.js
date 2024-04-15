@@ -173,6 +173,13 @@ app.get('/UploadGameById/:Id', async (req, res) => {
 })
 
 
+app.get('/fetchgame', async (req, res) => {
+  const fetchgame = await UploadGame.find()
+
+  res.send({ fetchgame })
+})
+
+
 app.get('/UploadGame/:Id', async (req, res) => {
   try {
     const userId = new mongoose.Types.ObjectId(req.params.Id);

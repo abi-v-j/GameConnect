@@ -13,6 +13,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { Divider, Paper } from "@mui/material";
+import {Link}  from 'react-router-dom'
 
 const Sidebar = () => {
   const {dispatch}= useContext(DarkModeContext)
@@ -26,66 +27,41 @@ const Sidebar = () => {
       <div className="center">
         <ul>
             <p className="title">MAIN</p>
+            <Link  to={'/Admin'} style={{textDecoration:'none'}}>
+
           <li>
             <DashboardIcon className="icon"/>
-            <span>Dash</span>
+            <span>Dashbord</span>
           </li>
+            </Link>
           <Divider/>
-          <p className="title">Lists</p>
+          <p className="title">datas</p>
+          <Link  to={'/Admin/UploadGame'} style={{textDecoration:'none'}}>
+
           <li>
             <AccountCircleIcon className="icon"/>
-            <span>Users</span>
+            <span>Upload Game</span>
           </li>
+          </Link>
+          <Link  to={'/Admin/Viewgame'} style={{textDecoration:'none'}}>
+
           <li>
             <CollectionsIcon className="icon"/>
-            <span>Contents</span>
+            <span>Games</span>
           </li>
+          </Link>
+          <Link  to={'/'} style={{textDecoration:'none'}}>
+
           <li>
             <LocalMallIcon className="icon"/>
-            <span>Orders</span>
+            <span>Log Out</span>
           </li>
+          </Link>
           <Divider/>
-          <p className="title">USEFUL</p>
-          <li>
-            <InsertChartOutlinedTwoToneIcon className="icon"/>
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsActiveOutlinedIcon className="icon"/>
-            <span>Notifications</span>
-          </li>
-          <Divider/>
-          <p className="title">Service</p>
-          <li>
-          <ImportantDevicesIcon className="icon"/>
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyIcon className="icon"/>
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsIcon className="icon"/>
-            <span>Settings</span>
-          </li>
-          <Divider/>
-          
-          <p className="title">USER</p>
-          <li>
-            <BadgeIcon className="icon"/>
-            <span>Profile</span>
-          </li>
-          <li>
-            <ExitToAppIcon className="icon"/>
-            <span>LogOut</span>
-          </li>
-          <Divider/>
+        
         </ul>
       </div>
-      <div className="bottom">
-      <div className="colorOption" onClick={()=>dispatch({type:"LIGHT"})}></div>
-      <div className="colorOption" onClick={()=>dispatch({type:"DARK"})}></div>
-      </div>
+     
     </div>
     </Paper>
   );

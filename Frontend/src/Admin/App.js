@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import Navbar from "./components/navbar/Navbar";
 import UploadGame from "./pages/UploadGame";
+import Viewgame from "./pages/Viewgame";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -22,6 +23,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/UploadGame" element={<UploadGame />} />
+              <Route path="/Viewgame" element={<Viewgame />} />
               
 
             </Routes>
